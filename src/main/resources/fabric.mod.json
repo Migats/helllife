@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "helllife",
+  "version": "${version}",
+  "name": "HellLife",
+  "description": "",
+  "authors": [],
+  "contact": {
+    "repo": "https://github.com/migat/HellLife"
+  },
+  "license": "MIT",
+  "icon": "assets/helllife/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "net.migats21.helllife.client.HellLifeClient"
+    ],
+    "main": [
+      "net.migats21.helllife.HellLife"
+    ]
+  },
+  "mixins": [
+    "helllife.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

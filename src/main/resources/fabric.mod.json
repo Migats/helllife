@@ -22,6 +22,7 @@
   "mixins": [
     "helllife.mixins.json"
   ],
+  "accessWidener" : "helllife.accessWidener",
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric": "*",

@@ -1,0 +1,10 @@
+{
+  "spawn.spawnpole.bound": "Your life is now bound to the spawn pole",
+  "spawn.spawnpole.destroyed": "The spawn pole has been destroyed",
+  "spawn.spawnpole.restored": "The spawn pole has been restored",
+  "spawn.spawnpole.load": "The spawnpole is now loaded",
+  "spawn.spawnpole.unload": "The spawnpole is not loaded anymore",
+  "commands.setspawnpole.fail.overworld": "You cannot set a spawnpole outside the overworld",
+  "commands.setspawnpole.fail.beacon": "A spawnpole requires a beacon to be placed",
+  "deathScreen.eliminated": "You are eliminated"
+}

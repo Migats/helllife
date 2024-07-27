@@ -11,12 +11,15 @@ import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import org.jetbrains.annotations.NotNull;
 
-public class ModBlocks extends Blocks {
-    public static final Block DARK_BEACON = register("dark_beacon", new DarkBeaconBlock(BlockBehaviour.Properties.ofFullCopy(BEACON)));
-    public static final Block END_AMETHYST_ORE = register("end_amethyst_ore", new DropExperienceBlock(UniformInt.of(0, 2), BlockBehaviour.Properties.ofFullCopy(END_STONE)));
+public class ModBlocks {
+    public static final Block DARK_BEACON = register("dark_beacon", new DarkBeaconBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BEACON)));
+    public static final Block END_AMETHYST_ORE = register("end_amethyst_ore", new DropExperienceBlock(UniformInt.of(0, 2), BlockBehaviour.Properties.ofFullCopy(Blocks.END_STONE)));
 
-    public static @NotNull Block register(String name, Block block) {
-        return Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(HellLife.MODID, name), block);
+    private static @NotNull Block register(String name, Block block) {
+        return Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(HellLife.MODID, name), block);
     }
 
+    public static void register() {
+
+    }
 }

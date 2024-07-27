@@ -15,6 +15,9 @@
     "client": [
       "net.migats21.helllife.client.HellLifeClient"
     ],
+    "fabric-datagen": [
+      "net.migats21.helllife.data.HellLifeData"
+    ],
     "main": [
       "net.migats21.helllife.HellLife"
     ]

@@ -1,2 +1,9 @@
 accessWidener v1 named
 accessible method net/minecraft/world/level/block/entity/BeaconBlockEntity$BeaconBeamSection increaseHeight ()V
+accessible method net/minecraft/world/level/biome/MultiNoiseBiomeSource <init> (Lcom/mojang/datafixers/util/Either;)V
+accessible field net/minecraft/world/level/biome/MultiNoiseBiomeSource parameters Lcom/mojang/datafixers/util/Either;
+accessible method net/minecraft/world/level/biome/MultiNoiseBiomeSource parameters ()Lnet/minecraft/world/level/biome/Climate$ParameterList;
+accessible class net/minecraft/world/level/levelgen/presets/WorldPresets$Bootstrap
+accessible field net/minecraft/world/level/chunk/ChunkGeneratorStructureState biomeSource Lnet/minecraft/world/level/biome/BiomeSource;
+extendable class net/minecraft/world/level/levelgen/structure/structures/JigsawStructure
+accessible field net/minecraft/server/level/ServerLevel lastSpawnChunkRadius I

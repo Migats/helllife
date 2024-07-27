@@ -1,0 +1,15 @@
+{
+  "placement": {
+    "type": "helllife:center_placement",
+    "preferred_biomes": "helllife:nether_deathlands",
+    "salt": 0,
+    "x_offset": -1,
+    "z_offset": -1
+  },
+  "structures": [
+    {
+      "structure": "helllife:ghost_dome",
+      "weight": 1
+    }
+  ]
+}

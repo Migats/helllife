@@ -1,0 +1,10 @@
+{
+  "parent": "block/beacon",
+  "rendertype": "translucent",
+  "textures": {
+    "particle": "block/tinted_glass",
+    "glass": "block/tinted_glass",
+    "obsidian": "block/obsidian",
+    "beacon": "helllife:block/dark_beacon"
+  }
+}

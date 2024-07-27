@@ -12,7 +12,7 @@ public class ModBlockEntityTypes {
     public static final BlockEntityType<DarkBeaconBlockEntity> DARK_BEACON = register("dark_beacon", BlockEntityType.Builder.of(DarkBeaconBlockEntity::new, ModBlocks.DARK_BEACON));
 
     private static  <T extends BlockEntity> BlockEntityType<T> register(String name, BlockEntityType.Builder<T> builder) {
-        return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, new ResourceLocation(HellLife.MODID, name), builder.build(null));
+        return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(HellLife.MODID, name), builder.build(null));
     }
 
     public static void register() {

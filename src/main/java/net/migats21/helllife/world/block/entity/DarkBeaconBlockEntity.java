@@ -2,23 +2,16 @@ package net.migats21.helllife.world.block.entity;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import net.migats21.helllife.HellLife;
-import net.migats21.helllife.world.spawn.Spawnpole;
+import net.migats21.helllife.world.level.Spawnpole;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.monster.Enemy;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.util.FastColor;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BeaconBeamBlock;
 import net.minecraft.world.level.block.Block;
@@ -28,11 +21,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class DarkBeaconBlockEntity extends BlockEntity {
@@ -40,6 +31,8 @@ public class DarkBeaconBlockEntity extends BlockEntity {
     private ArrayList<BeaconBlockEntity.BeaconBeamSection> checkingBeamSections = new ArrayList<>();
     private int levels;
     private ArrayList<BeaconBlockEntity.BeaconBeamSection> beamSections = new ArrayList<>();
+    private boolean generated;
+
     public DarkBeaconBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(ModBlockEntityTypes.DARK_BEACON, blockPos, blockState);
     }
@@ -65,15 +58,15 @@ public class DarkBeaconBlockEntity extends BlockEntity {
             BlockState blockState2 = level.getBlockState(blockPos2);
             Block block = blockState2.getBlock();
             if (block instanceof BeaconBeamBlock) {
-                float[] fs = ((BeaconBeamBlock)block).getColor().getTextureDiffuseColors();
+                int n = ((BeaconBeamBlock)block).getColor().getTextureDiffuseColor();
                 if (beaconBlockEntity.checkingBeamSections.isEmpty()) {
-                    beaconBeamSection = new BeaconBlockEntity.BeaconBeamSection(fs);
+                    beaconBeamSection = new BeaconBlockEntity.BeaconBeamSection(n);
                     beaconBlockEntity.checkingBeamSections.add(beaconBeamSection);
                 } else if (beaconBeamSection != null) {
-                    if (Arrays.equals(fs, beaconBeamSection.getColor())) {
+                    if (n == beaconBeamSection.getColor()) {
                         beaconBeamSection.increaseHeight();
                     } else {
-                        beaconBeamSection = new BeaconBlockEntity.BeaconBeamSection(new float[]{(beaconBeamSection.getColor()[0] + fs[0]) / 2.0F, (beaconBeamSection.getColor()[1] + fs[1]) / 2.0F, (beaconBeamSection.getColor()[2] + fs[2]) / 2.0F});
+                        beaconBeamSection = new BeaconBlockEntity.BeaconBeamSection(FastColor.ARGB32.average(beaconBeamSection.getColor(), n));
                         beaconBlockEntity.checkingBeamSections.add(beaconBeamSection);
                     }
                 }
@@ -192,7 +185,23 @@ public class DarkBeaconBlockEntity extends BlockEntity {
         return this.saveWithoutMetadata(provider);
     }
 
+    @Override
+    protected void loadAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
+        super.loadAdditional(compoundTag, provider);
+        generated = compoundTag.getBoolean("generated");
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
+        super.saveAdditional(compoundTag, provider);
+        if (generated) compoundTag.putBoolean("generated", true);
+    }
+
     public List<BeaconBlockEntity.BeaconBeamSection> getBeamSections() {
         return this.levels == 0 ? ImmutableList.of() : this.beamSections;
+    }
+
+    public boolean isGenerated() {
+        return generated;
     }
 }

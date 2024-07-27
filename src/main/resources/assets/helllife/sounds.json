@@ -1,0 +1,23 @@
+{
+  "music.nether.deathlands": {
+    "sounds": [
+      {
+        "name": "thehelllife:music/nether_blacklands",
+        "stream": true,
+        "preload": true
+      }
+    ]
+  },
+  "entity.generic.shockwave": {
+    "subtitle": "subtitles.entity.generic.shockwave",
+    "sounds": [
+      "helllife:generic/shockwave"
+    ]
+  },
+  "ambient.shockwave": {
+    "subtitle": "subtitles.shockwave",
+    "sounds": [
+      "helllife:generic/shockwave_ambient"
+    ]
+  }
+}

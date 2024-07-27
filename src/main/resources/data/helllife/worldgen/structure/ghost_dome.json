@@ -1,0 +1,19 @@
+{
+  "type": "helllife:fixed_jigsaw",
+  "biomes": "#helllife:has_structure/ghost_dome",
+  "step": "underground_decoration",
+  "spawn_overrides": {
+
+  },
+  "start_pool": "helllife:ghost_dome/start_pool",
+  "size": 1,
+  "start_height": {
+    "type": "constant",
+    "value": {
+      "absolute": 59
+    }
+  },
+  "terrain_adaptation": "none",
+  "max_distance_from_center": 1,
+  "use_expansion_hack": false
+}

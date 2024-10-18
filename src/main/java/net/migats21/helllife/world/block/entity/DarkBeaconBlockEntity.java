@@ -2,16 +2,27 @@ package net.migats21.helllife.world.block.entity;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import net.migats21.helllife.HellLife;
+import net.migats21.helllife.common.ModSoundEvents;
+import net.migats21.helllife.common.ModDamageTypes;
+import net.migats21.helllife.world.biome.ModBiomes;
 import net.migats21.helllife.world.level.Spawnpole;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.FastColor;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BeaconBeamBlock;
 import net.minecraft.world.level.block.Block;
@@ -21,6 +32,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -50,7 +62,7 @@ public class DarkBeaconBlockEntity extends BlockEntity {
             blockPos2 = new BlockPos(i, beaconBlockEntity.lastCheckY + 1, k);
         }
 
-        BeaconBlockEntity.BeaconBeamSection beaconBeamSection = beaconBlockEntity.checkingBeamSections.isEmpty() ? null : beaconBlockEntity.checkingBeamSections.get(beaconBlockEntity.checkingBeamSections.size() - 1);
+        BeaconBlockEntity.BeaconBeamSection beaconBeamSection = beaconBlockEntity.checkingBeamSections.isEmpty() ? null : beaconBlockEntity.checkingBeamSections.getLast();
         int l = level.getHeight(Heightmap.Types.WORLD_SURFACE, i, k);
 
         int m;
@@ -117,11 +129,9 @@ public class DarkBeaconBlockEntity extends BlockEntity {
     }
 
     private static void applyShockwave(Level level, BlockPos blockPos, int levels) {
-        // Not yet ready
-/*
         if (level.isClientSide || level.dimension() != Level.NETHER) return;
         ServerLevel serverLevel = (ServerLevel) level;
-        RandomSource randomSource = serverLevel.getRandomSequence(new ResourceLocation(HellLife.MODID, "deaths"));
+        RandomSource randomSource = serverLevel.getRandomSequence(ResourceLocation.fromNamespaceAndPath(HellLife.MODID, "deaths"));
         double d = randomSource.nextDouble() * (double)(levels * 12) + 28.0;
         AABB aabb = AABB.ofSize(new Vec3(blockPos.getX(), 128.0, blockPos.getZ()), d * 2.0, 256.0, d * 2.0);
         List<Mob> mobs = level.getEntitiesOfClass(Mob.class, aabb, (mob) ->
@@ -138,7 +148,6 @@ public class DarkBeaconBlockEntity extends BlockEntity {
             AABB aabb1 = mob.getBoundingBox();
             serverLevel.sendParticles(ParticleTypes.LARGE_SMOKE, mob.getX(), mob.getY(), mob.getZ(), 100, aabb1.getXsize(), aabb1.getYsize(), aabb1.getZsize(), 0.05);
         }
-*/
     }
 
     private static int updateBase(Level level, int i, int j, int k) {

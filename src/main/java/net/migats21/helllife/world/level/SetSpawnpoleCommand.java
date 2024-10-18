@@ -14,7 +14,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.block.BeaconBlock;
 
 public class SetSpawnpoleCommand {
-
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext ignoredBuildContext, Commands.CommandSelection ignoredSelection) {
         dispatcher.register(Commands.literal("setspawnpole").requires(commandSourceStack -> commandSourceStack.hasPermission(2)).then(Commands.argument("pos", BlockPosArgument.blockPos()).executes(SetSpawnpoleCommand::setSpawnpole)));
     }
@@ -23,7 +22,7 @@ public class SetSpawnpoleCommand {
         CommandSourceStack source = context.getSource();
         BlockPos blockPos = BlockPosArgument.getLoadedBlockPos(context, "pos");
         ServerLevel level = source.getLevel();
-        if (!level.dimensionType().natural()) throw Spawnpole.OVERWORLD_ERROR.create();
+        if (!level.dimension().equals(ChallengeData.getSpawnDimension(source.getServer()))) throw Spawnpole.OVERWORLD_ERROR.create();
         if (!(level.getBlockState(blockPos).getBlock() instanceof BeaconBlock)) throw Spawnpole.BEACON_ERROR.create();
         Spawnpole.create(level, blockPos);
         level.playSound(null, blockPos, SoundEvents.BEACON_ACTIVATE, SoundSource.BLOCKS, 1.0f, 1.0f);

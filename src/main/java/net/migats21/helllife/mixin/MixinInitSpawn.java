@@ -7,7 +7,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.TicketType;
-import net.minecraft.server.level.progress.ChunkProgressListener;
 import net.minecraft.util.Unit;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
@@ -22,8 +21,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinInitSpawn {
     @Shadow public abstract @Nullable ServerLevel getLevel(ResourceKey<Level> resourceKey);
 
-    @Shadow protected abstract void prepareLevels(ChunkProgressListener chunkProgressListener);
-
     @Shadow public abstract ServerLevel overworld();
 
     @Inject(method = "loadLevel", at = @At("TAIL"))
@@ -31,9 +28,9 @@ public abstract class MixinInitSpawn {
         ServerLevel nether = getLevel(Level.NETHER);
         ChallengeData challengeData = ChallengeData.initChallengeData(nether);
         if (challengeData == null) return;
+        overworld().getChunkSource().removeRegionTicket(TicketType.START, new ChunkPos(overworld().getSharedSpawnPos()), overworld().lastSpawnChunkRadius, Unit.INSTANCE);
+        overworld().setDefaultSpawnPos(new BlockPos(0, 62, -12), 180.0f);
         if (!challengeData.isInitialized()) {
-            overworld().getChunkSource().removeRegionTicket(TicketType.START, new ChunkPos(overworld().getSharedSpawnPos()), overworld().lastSpawnChunkRadius, Unit.INSTANCE);
-            nether.setDefaultSpawnPos(new BlockPos(0, 62, 12), 180.0f);
             Spawnpole.create(nether, new BlockPos(-1, 65, 0));
         }
     }

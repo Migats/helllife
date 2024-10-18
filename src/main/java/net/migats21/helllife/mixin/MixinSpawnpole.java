@@ -11,15 +11,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.BeaconBlock;
-import net.minecraft.world.level.block.entity.BeaconBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(BeaconBlock.class)
 public abstract class MixinSpawnpole extends BaseEntityBlock {
@@ -27,8 +24,9 @@ public abstract class MixinSpawnpole extends BaseEntityBlock {
         super(properties);
     }
 
-    @Inject(method = "useWithoutItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;openMenu(Lnet/minecraft/world/MenuProvider;)Ljava/util/OptionalInt;"), locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
-    public void activateSpawnpole(BlockState blockState, Level level, BlockPos blockPos, Player player, BlockHitResult blockHitResult, CallbackInfoReturnable<InteractionResult> cir, BeaconBlockEntity beaconBlockEntity, BlockEntity var7) {
+    @Inject(method = "useWithoutItem", at = @At("HEAD"), cancellable = true)
+    public void activateSpawnpole(BlockState blockState, Level level, BlockPos blockPos, Player player, BlockHitResult blockHitResult, CallbackInfoReturnable<InteractionResult> cir) {
+        if (level.isClientSide) return;
         Spawnpole spawnpole = Spawnpole.get((ServerLevel) level, blockPos);
         if (spawnpole == null) return;
         cir.cancel();

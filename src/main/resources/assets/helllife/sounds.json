@@ -2,7 +2,7 @@
   "music.nether.deathlands": {
     "sounds": [
       {
-        "name": "thehelllife:music/nether_blacklands",
+        "name": "helllife:music/nether_blacklands",
         "stream": true,
         "preload": true
       }

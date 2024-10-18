@@ -1,16 +1,19 @@
 {
-  "required": true,
-  "minVersion": "0.8",
-  "package": "net.migats21.helllife.mixin",
-  "compatibilityLevel": "JAVA_21",
-  "mixins": [
-    "MixinFixedJigsawPlacement",
-    "MixinInitSpawn",
-    "MixinSpawnpole"
-  ],
-  "client": [
-  ],
-  "injectors": {
-    "defaultRequire": 1
+    "required": true,
+    "minVersion": "0.8",
+    "package": "net.migats21.helllife.mixin",
+    "compatibilityLevel": "JAVA_21",
+    "mixins": [
+        "MixinFixedJigsawPlacement",
+        "MixinInitSpawn",
+        "MixinMobDrops",
+        "MixinPlayerListSpawn",
+        "MixinPlayerSpawn",
+        "MixinSpawnpole"
+    ],
+    "client": [
+    ],
+    "injectors": {
+        "defaultRequire": 1
   }
 }

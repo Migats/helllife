@@ -58,7 +58,7 @@ public class Spawnpole extends SavedData {
             location = NbtUtils.readBlockPos(compoundTag, "location").orElse(null);
             if (compoundTag.contains("bound", Tag.TAG_INT_ARRAY)) {
                 IntArrayTag intArrayTag = (IntArrayTag) compoundTag.get("bound");
-                for (int j=0;j<intArrayTag.size();i+=4) {
+                for (int j=0;j<intArrayTag.size();j+=4) {
                     bound.add(UUIDUtil.uuidFromIntArray(intArrayTag.subList(j, j+4).stream().mapToInt(IntTag::getAsInt).toArray()));
                 }
             }
@@ -118,7 +118,7 @@ public class Spawnpole extends SavedData {
     }
 
     public static Spawnpole get(ServerLevel level, BlockPos blockPos) {
-        if (!level.dimensionType().natural()) return null;
+        if (!ChallengeData.getSpawnDimension(level.getServer()).equals(level.dimension())) return null;
         Spawnpole spawnpole = level.getDataStorage().get(FACTORY, "spawnpole");
         return spawnpole != null && spawnpole.location.equals(blockPos) ? spawnpole : null;
     }

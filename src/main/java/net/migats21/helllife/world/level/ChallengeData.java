@@ -22,6 +22,7 @@ public class ChallengeData extends SavedData {
     private static final Factory<ChallengeData> FACTORY = new Factory<>(ChallengeData::new, ChallengeData::new, DataFixTypes.LEVEL);
 
     private boolean initialized;
+    private int reward_timeout;
 
     public ChallengeData() {
     }
@@ -36,6 +37,11 @@ public class ChallengeData extends SavedData {
 
     public static boolean isPresent(MinecraftServer server) {
         return server.getLevel(Level.NETHER).getDataStorage().get(FACTORY, HellLife.MODID) != null;
+    }
+
+    public static boolean canGetRewards(MinecraftServer server) {
+        ChallengeData data = server.getLevel(Level.NETHER).getDataStorage().get(FACTORY, HellLife.MODID);
+        return data != null && data.reward_timeout == 0;
     }
 
     @Override

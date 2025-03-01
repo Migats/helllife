@@ -1,4 +1,11 @@
 {
   "block.helllife.dark_beacon": "Dark Beacon",
-  "generator.helllife.challenge": "Challenge of Hell"
+  "block.helllife.dark_beacon.lore": "Shockwaves nearby enemies when charged",
+  "block.helllife.end_amethyst_ore": "End Amethyst Ore",
+  "generator.helllife.challenge": "Challenge of Hell",
+  "item.helllife.exploration_potion": "Exploration Potion",
+  "item.helllife.exploration_potion.lore": "Grants %s hours of exploration time",
+  "message.helllife.reward.timeout": "Rewards are on timeout",
+  "message.helllife.reward.success": "Your offer is accepted",
+  "message.helllife.reward.fail": "You gained nothing"
 }

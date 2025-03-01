@@ -18,8 +18,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.Function;
 
 public class ModItems {
-    public static final Item DARK_BEACON = register("dark_beacon", (properties) -> new BlockItem(ModBlocks.DARK_BEACON, properties), new Item.Properties().rarity(Rarity.EPIC));
-    public static final Item END_AMETHYST_ORE = register("end_amethyst_ore", (properties) -> new BlockItem(ModBlocks.END_AMETHYST_ORE, properties), new Item.Properties());
+    public static final Item DARK_BEACON = register("dark_beacon", (properties) -> new BlockItem(ModBlocks.DARK_BEACON, properties), new Item.Properties().rarity(Rarity.EPIC).useBlockDescriptionPrefix());
+    public static final Item END_AMETHYST_ORE = register("end_amethyst_ore", (properties) -> new BlockItem(ModBlocks.END_AMETHYST_ORE, properties), new Item.Properties().useBlockDescriptionPrefix());
 
     private static @NotNull Item register(String name, Function<Item.Properties, Item> item, Item.Properties properties) {
         ResourceLocation resourceLocation = ResourceLocation.fromNamespaceAndPath(HellLife.MODID, name);

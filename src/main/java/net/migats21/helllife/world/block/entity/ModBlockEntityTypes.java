@@ -8,11 +8,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
-public class ModBlockEntityTypes {
-    public static final BlockEntityType<DarkBeaconBlockEntity> DARK_BEACON = register("dark_beacon", BlockEntityType.Builder.of(DarkBeaconBlockEntity::new, ModBlocks.DARK_BEACON));
+import java.util.Set;
 
-    private static  <T extends BlockEntity> BlockEntityType<T> register(String name, BlockEntityType.Builder<T> builder) {
-        return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(HellLife.MODID, name), builder.build(null));
+public class ModBlockEntityTypes {
+    public static final BlockEntityType<DarkBeaconBlockEntity> DARK_BEACON = register("dark_beacon", new BlockEntityType<>(DarkBeaconBlockEntity::new, Set.of(ModBlocks.DARK_BEACON)));
+
+    private static  <T extends BlockEntity> BlockEntityType<T> register(String name, BlockEntityType<T> type) {
+        return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(HellLife.MODID, name), type);
     }
 
     public static void register() {

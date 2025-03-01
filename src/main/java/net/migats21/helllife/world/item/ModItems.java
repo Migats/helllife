@@ -5,6 +5,8 @@ import net.migats21.helllife.HellLife;
 import net.migats21.helllife.world.block.ModBlocks;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -13,12 +15,16 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import org.jetbrains.annotations.NotNull;
 
-public class ModItems {
-    public static final Item DARK_BEACON = register("dark_beacon", new BlockItem(ModBlocks.DARK_BEACON, new Item.Properties().rarity(Rarity.EPIC)));
-    public static final Item END_AMETHYST_ORE = register("end_amethyst_ore", new BlockItem(ModBlocks.END_AMETHYST_ORE, new Item.Properties()));
+import java.util.function.Function;
 
-    private static @NotNull Item register(String name, Item item) {
-        return Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(HellLife.MODID, name), item);
+public class ModItems {
+    public static final Item DARK_BEACON = register("dark_beacon", (properties) -> new BlockItem(ModBlocks.DARK_BEACON, properties), new Item.Properties().rarity(Rarity.EPIC));
+    public static final Item END_AMETHYST_ORE = register("end_amethyst_ore", (properties) -> new BlockItem(ModBlocks.END_AMETHYST_ORE, properties), new Item.Properties());
+
+    private static @NotNull Item register(String name, Function<Item.Properties, Item> item, Item.Properties properties) {
+        ResourceLocation resourceLocation = ResourceLocation.fromNamespaceAndPath(HellLife.MODID, name);
+        properties.setId(ResourceKey.create(Registries.ITEM, resourceLocation));
+        return Registry.register(BuiltInRegistries.ITEM, resourceLocation, item.apply(properties));
     }
 
     public static void register() {

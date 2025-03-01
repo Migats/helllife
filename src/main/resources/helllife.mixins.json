@@ -4,11 +4,13 @@
     "package": "net.migats21.helllife.mixin",
     "compatibilityLevel": "JAVA_21",
     "mixins": [
+        "MixinFireBlock",
         "MixinFixedJigsawPlacement",
         "MixinInitSpawn",
         "MixinMobDrops",
         "MixinPlayerListSpawn",
         "MixinPlayerSpawn",
+        "MixinPortalRestrictor",
         "MixinSpawnpole"
     ],
     "client": [

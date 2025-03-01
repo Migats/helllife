@@ -49,7 +49,7 @@ public class NetherBiomeSource extends MultiNoiseBiomeSource {
         int n = QuartPos.toBlock(k);
         int o = SectionPos.blockToSectionCoord(l);
         int p = SectionPos.blockToSectionCoord(n);
-        if ((long)l * (long)l + (long)n * (long)n <= 10000L) {
+        if ((long)l * (long)l + (long)n * (long)n <= 0x4000) {
             return this.netherDeathLands;
         } else {
             return this.getNoiseBiome(sampler.sample(i, j, k));

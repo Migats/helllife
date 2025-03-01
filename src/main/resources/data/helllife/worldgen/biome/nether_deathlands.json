@@ -1,7 +1,5 @@
 {
-  "carvers": {
-    "air": "helllife:ghostdome_hole"
-  },
+  "carvers": "helllife:ghostdome_hole",
   "downfall": 0.0,
   "effects": {
     "additions_sound": {
@@ -16,12 +14,15 @@
       "sound": "minecraft:ambient.nether_wastes.mood",
       "tick_delay": 6000
     },
-    "music": {
-      "max_delay": 24000,
-      "min_delay": 12000,
-      "replace_current_music": false,
-      "sound": "helllife:music.nether.deathlands"
-    },
+    "music": [{
+      "data": {
+        "max_delay": 24000,
+        "min_delay": 12000,
+        "replace_current_music": false,
+        "sound": "helllife:music.nether.deathlands"
+      },
+      "weight": 1
+    }],
     "particle": {
       "options": {
         "type": "minecraft:white_ash"

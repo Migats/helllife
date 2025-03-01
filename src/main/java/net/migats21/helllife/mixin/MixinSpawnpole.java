@@ -33,7 +33,7 @@ public abstract class MixinSpawnpole extends BaseEntityBlock {
         cir.setReturnValue(InteractionResult.CONSUME);
         if (spawnpole.bind(player)) {
             ((ServerLevel) level).sendParticles(ParticleTypes.END_ROD, blockPos.getX() + 0.5, blockPos.getY() + 1.0, blockPos.getZ() + 0.5, 20, 0.0, 1.0, 0.0, 0.1);
-            player.sendSystemMessage(Spawnpole.BOUND_MESSAGE);
+            player.displayClientMessage(Spawnpole.BOUND_MESSAGE, false);
             level.playSound(null, blockPos, SoundEvents.BEACON_POWER_SELECT, SoundSource.BLOCKS, 1.0f, 1.0f);
         }
     }

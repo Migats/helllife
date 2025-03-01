@@ -3,8 +3,8 @@ package net.migats21.helllife.world.block.entity;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import net.migats21.helllife.HellLife;
-import net.migats21.helllife.common.ModSoundEvents;
 import net.migats21.helllife.common.ModDamageTypes;
+import net.migats21.helllife.common.ModSoundEvents;
 import net.migats21.helllife.world.biome.ModBiomes;
 import net.migats21.helllife.world.level.Spawnpole;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -18,7 +18,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.FastColor;
+import net.minecraft.util.ARGB;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.monster.Enemy;
@@ -44,6 +44,7 @@ public class DarkBeaconBlockEntity extends BlockEntity {
     private int levels;
     private ArrayList<BeaconBlockEntity.BeaconBeamSection> beamSections = new ArrayList<>();
     private boolean generated;
+    private RandomSource random;
 
     public DarkBeaconBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(ModBlockEntityTypes.DARK_BEACON, blockPos, blockState);
@@ -78,12 +79,12 @@ public class DarkBeaconBlockEntity extends BlockEntity {
                     if (n == beaconBeamSection.getColor()) {
                         beaconBeamSection.increaseHeight();
                     } else {
-                        beaconBeamSection = new BeaconBlockEntity.BeaconBeamSection(FastColor.ARGB32.average(beaconBeamSection.getColor(), n));
+                        beaconBeamSection = new BeaconBlockEntity.BeaconBeamSection(ARGB.average(beaconBeamSection.getColor(), n));
                         beaconBlockEntity.checkingBeamSections.add(beaconBeamSection);
                     }
                 }
             } else {
-                if (beaconBeamSection == null || blockState2.getLightBlock(level, blockPos2) >= 15 && !blockState2.is(Blocks.BEDROCK)) {
+                if (beaconBeamSection == null || blockState2.getLightBlock() >= 15 && !blockState2.is(Blocks.BEDROCK)) {
                     beaconBlockEntity.checkingBeamSections.clear();
                     beaconBlockEntity.lastCheckY = l;
                     break;
@@ -109,7 +110,7 @@ public class DarkBeaconBlockEntity extends BlockEntity {
         }
 
         if (beaconBlockEntity.lastCheckY >= l) {
-            beaconBlockEntity.lastCheckY = level.getMinBuildHeight() - 1;
+            beaconBlockEntity.lastCheckY = level.getMinY() - 1;
             boolean bl = m > 0;
             beaconBlockEntity.beamSections = beaconBlockEntity.checkingBeamSections;
             if (!level.isClientSide) {
@@ -131,16 +132,16 @@ public class DarkBeaconBlockEntity extends BlockEntity {
     private static void applyShockwave(Level level, BlockPos blockPos, int levels) {
         if (level.isClientSide || level.dimension() != Level.NETHER) return;
         ServerLevel serverLevel = (ServerLevel) level;
-        RandomSource randomSource = serverLevel.getRandomSequence(ResourceLocation.fromNamespaceAndPath(HellLife.MODID, "deaths"));
-        double d = randomSource.nextDouble() * (double)(levels * 12) + 28.0;
+        RandomSource random = serverLevel.getRandomSequence(ResourceLocation.fromNamespaceAndPath(HellLife.MODID, "shockwaves"));
+        double d = random.nextDouble() * (double)(levels * 12) + 28.0;
         AABB aabb = AABB.ofSize(new Vec3(blockPos.getX(), 128.0, blockPos.getZ()), d * 2.0, 256.0, d * 2.0);
         List<Mob> mobs = level.getEntitiesOfClass(Mob.class, aabb, (mob) ->
             blockPos.distToCenterSqr(mob.position()) < d*d && (levels < 5 ? mob instanceof Enemy : level.getBiome(mob.blockPosition()).is(ModBiomes.NETHER_DEATHLANDS))
         );
-        int i = level.getGameRules().getInt(GameRules.RULE_RANDOMTICKING);
+        int i = ((ServerLevel) level).getGameRules().getInt(GameRules.RULE_RANDOMTICKING);
         for (int j=0;j<i;j++) {
             if (mobs.isEmpty()) return;
-            Mob mob = mobs.get(randomSource.nextInt(mobs.size()));
+            Mob mob = mobs.get(random.nextInt(mobs.size()));
             mob.hurt(mob.damageSources().source(ModDamageTypes.SHOCKWAVE), Float.MAX_VALUE);
             if (mob.isDeadOrDying()) mobs.remove(mob);
             mob.playSound(ModSoundEvents.GENERIC_SHOCKWAVE, 2.0f, 1.0f);
@@ -155,7 +156,7 @@ public class DarkBeaconBlockEntity extends BlockEntity {
 
         for(int m = 1; m <= 4; l = m++) {
             int n = j - m;
-            if (n < level.getMinBuildHeight()) {
+            if (n < level.getMinY()) {
                 break;
             }
 
